@@ -1,0 +1,130 @@
+--Parte 1--
+class PLANTAS
+    añoDeObtencion
+    altura
+    
+    horasDeSolQueTolera (metodo abstracto)
+
+    poder preguntarle:
+        cuantas horas del sol tolera
+
+        si es fuerte o no
+            es fuerte si tolera mas de 10 horas. todas las plantas
+        si da nuevas semillas
+            da semillas si es fuerte o cumple otra funcion que se define por especie
+        espacio que ocupa plantada
+            depende de las caracteristicas de la especie
+
+    MENTA inherits plantas  
+        tolera 6 horas de sol al dia
+        da semillas si es fuerte o su altura es > 0.4
+        espacioQueOcupa = altura * 3
+
+        tests de mentaa
+            menta de 1 metro da semillas y ocupa 3 mts^2
+            menta de 0.3mts no da semillas y ocupa 0.9 mts^2
+
+    SOJA inherits plantas
+        tolerancia depende de altura
+            menor a 0.5 metros: 6 horas;
+            entre 0.5 y 1 metro: 7 horas;
+            más de 1 metro: 9 horas;
+        condicionAlternativa para que de semillas es que su semilla sea posterior al 2007 & su altura de mas de un metro
+        el espacio que ocupa es altura/2
+
+        tests de SOJA
+            soja de 0.6m, semilla del 2009 la planta tendria una tolerancia de 7hs, no daria semillas y ocuparia 0.3mts^2
+
+    QUINOA inherits plantas
+        existen muchas cepas de QUINOA
+        la cantida de horas que puedeestar al sol, se configura por planta
+        siempre ocupa 0.5mts^2
+        condicionalternativas es que el año de obtencion de la semilla sea antes del 2005
+
+        tests para QUINOA
+            tenemos una quinoa que tolera 12 hs de sol y su semilla de origen es de 2010, da semillas
+            si la planta tolera 9 hs de sol per su semilla es de 2001, da semillas
+
+2. VARIEDADES
+
+    agregar al modelo la soja transgenica (subclase de soja) y la hierbabiena (subclase de menta)
+    
+    SOJATRANSGENICA inherits SOJA
+        nunca da nuevas semillas
+        la consulta da falso incluso si se cumple la condicion general
+
+    HERBABUENA inherits MENTA
+        el espacio que ocupaes el doble del que ocuparia una planta de menta 
+
+3.PARCELAS
+
+    class PARCELA
+        ancho
+        largo
+        horasDeSolQueRecibePorDia
+        palntasQueTiene = []
+
+        se pide:
+            superficieDeParcela = ancho * largo
+            cantidadmaxima de plantas que tolera =  
+                si el ancho > largo, la cuenta que debe hacerse es 
+                    superficio/5
+                sino:
+                    superficie/3 + largo
+            si tiene complicaciones = alguna planta tolera menos sol del que recibe la parcela 
+            plantarUnaPlanta(planta) = se agrega una planta a la coleccion palntasQueTiene. arroja un error si al plantar, se supera la cantidad max o si la parcela recobe 2 o mas horas de mas de lo que la planta tolera 
+
+            tetst para PARCELAS
+                parcela de 20 mts ancho * 1 largo recibe 8 hros de sol por dia, 
+                    tiene una sup de 20 mts^2 y la cantidad max e palntas que tolera es 4
+
+                si a esa parcela le plantamos 4 plantas de sola de mas de 1mts(que toleran 9 hs de sol)
+                ,
+                    no tiene complicaciones
+                si intentamos agregar una quinta planta, tira error
+
+4. PARCELAS IDEALES
+
+condiciones para que la parcela sea ideal segun la planta
+
+MENTA y HIERBABUENA
+    parcela con superficie > 6mts^2
+
+QUINOA
+    parcelas donde no haya plantas de mas de 1.5
+
+
+SOJA COMUN 
+    cantidadDeSol que recibe = cantidad de sol que tolera
+
+SOJA TRANSGENICA
+    parcelas cuya cantidad de plantas sea = 1
+
+5. ASOCIACION DE PLANTAS
+
+diferenciar parcelas en 2 tipos ecologicas e industriales
+
+saber si una planta se asocia bien dentro de una parcela
+parcelas ecologicas 
+    que no tenga complicaciones y sea ideal para la planta
+parcelas industriales
+    maximo 2 plantas y que la planta en cuestion sea fuerte
+
+6. ESTADISTICAS DEL INTA
+
+    objeto INTA
+
+    recibe una coleccion de parcelas
+    promedio de plantas por parcela
+        suma de plantas por parcela dividido la cantidad de parcelas que existen
+
+    parcela mas autosustentable
+        solo tomamos parcelas con mas de 4 plantas
+        la parcela mas autosustentable es la que tenga un procentaje mator de plantas bien asociadas
+
+
+
+
+
+    
+
