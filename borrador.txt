@@ -3,10 +3,8 @@ class PLANTAS
     añoDeObtencion
     altura
     
-    horasDeSolQueTolera (metodo abstracto)
-
     poder preguntarle:
-        cuantas horas del sol tolera
+        horasDeSolQueTolera (metodo abstracto)
 
         si es fuerte o no
             es fuerte si tolera mas de 10 horas. todas las plantas

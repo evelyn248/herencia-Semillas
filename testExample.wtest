@@ -1,0 +1,11 @@
+import example.*
+
+const planta1 = new Planta(añoDeObtencion = 2013, altura= 1)
+const planta2 = new Planta(añoDeObtencion = 2009, altura= 2)
+const planta3 = new Planta(añoDeObtencion = 2015, altura= 3)
+
+const parcela1 = new Parcela(ancho= 20, largo= 10, horasDeSolQueRecibePorDia= 5, palntasQueTiene= [planta1, planta2, planta3])
+
+test "Probar cantidadMaximaDePlantasQueTolera()" {
+    assert.equals(40, parcela1.cantidadMaximaDePlantasQueTolera())
+}
