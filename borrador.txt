@@ -118,7 +118,7 @@ parcelas industriales
 
     parcela mas autosustentable
         solo tomamos parcelas con mas de 4 plantas
-        la parcela mas autosustentable es la que tenga un procentaje mator de plantas bien asociadas
+        la parcela mas autosustentable es la que tenga un procentaje mayor de plantas bien asociadas
 
 
 

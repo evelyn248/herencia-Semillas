@@ -7,6 +7,7 @@ class Planta {
   method esFuerte() = self.horasDeSolQueTolera() > 10
   method daNuevasSemillas() = self.esFuerte() or self.condicionEspecial()
   method condicionEspecial()
+  method esParcelaIdeal(unaParcela)
 }
 
 class Menta inherits Planta {
@@ -17,7 +18,7 @@ class Menta inherits Planta {
 
   //---4. PARCELAS IDEALES--- 
 
-  method esParcelaIdeal(unaParcela) = unaParcela.superficieDeParcela() > 6
+  override method esParcelaIdeal(unaParcela) = unaParcela.superficieDeParcela() > 6
   
 }
 class Soja inherits Planta {
@@ -29,6 +30,9 @@ class Soja inherits Planta {
   
   override method condicionEspecial() = añoDeObtencion > 2007 and altura > 1
   method espacioQueOcupa() = altura /2
+
+  //---4. PARCELAS IDEALES--- 
+  override method esParcelaIdeal(unaParcela) = unaParcela.horasDeSolPorDia() == self.horasDeSolQueTolera()
 }
 
 class Quinoa inherits Planta {
@@ -38,15 +42,20 @@ class Quinoa inherits Planta {
   override method horasDeSolQueTolera() = horasDeSol
   method espacioQueOcupa() = 0.5
   override method condicionEspecial() = añoDeObtencion < 2005
-  method esParcelaIdeal(unaParcela) = not unaParcela.tieneAlgunaPlantaMasAltaQue(1.5)
+
+    //---4. PARCELAS IDEALES--- 
+  override method esParcelaIdeal(unaParcela) = not unaParcela.tieneAlgunaPlantaMasAltaQue(1.5)
 
 }
-
 
 //---2. VARIEDADES---
 
 class SojaTransgenica inherits Soja {
   override method daNuevasSemillas() = false
+
+//---4. PARCELAS IDEALES--- 
+
+  override method esParcelaIdeal(unaParcela) = unaParcela.cantidadMaximaDePlantasQueTolera() == 1
 
 }
 class Hierbabuena inherits Menta {
@@ -59,8 +68,8 @@ class Parcela {
 
   const ancho
   const largo
-  const horasDeSolQueRecibePorDia
-  const plantasQueTiene  = []
+  const property horasDeSolQueRecibePorDia
+  const  plantasQueTiene = []
 
   method  superficieDeParcela() = ancho * largo
   
@@ -71,9 +80,9 @@ class Parcela {
       (self.superficieDeParcela() / 3) + largo
     }  
 
-    method tieneComplicaciones(){
+    method tieneComplicaciones() =
       plantasQueTiene.any({p => p.horasDeSolQueTolera() < horasDeSolQueRecibePorDia})
-    }
+  
 
     method plantarPlanta(unaPlanta){
       if (self.puedePlantar(unaPlanta)){
@@ -89,7 +98,43 @@ class Parcela {
 
     method tieneAlgunaPlantaMasAltaQue(unaAltura) = 
         plantasQueTiene.any({ p => p.altura() > unaAltura })
+
+    method seAsociaBien(unaPlanta)
 }
+
+//-- 5. ASOCIACION DE PLANTAS --
+
+class ParcelaEcologica inherits Parcela{
+
+  override method seAsociaBien(unaPlanta) {
+    not self.tieneComplicaciones() and unaPlanta.esParcelaIdeal(self)
+  }
+
+}
+
+class ParcelaIndustrial inherits Parcela{
+
+  override method seAsociaBien(unaPlanta) {
+    self.cantidadMaximaDePlantasQueTolera() == 2 and unaPlanta.esFuerte()
+  }
+
+}
+
+// -- 6. ESTADISTICAS DEL INTA --
+
+object inta {
+  const coleccionDeParcelas = []
+
+  method promedioDePlantas() = 
+    coleccionDeParcelas.sum({p => p.plantasQueTiene().size()}) / coleccionDeParcelas.size()
+
+  method parcelaMasAutosustentable() = 
+    coleccionDeParcelas.filter({p => p.plantasQueTiene().size() > 4}).max({p => self.porcentajeDeBienAsociadas(p)})
+    
+  method porcentajeDeBienAsociadas(unaParcela) =
+    (unaParcela.cantidadDePlantasBienAsociadas() / unaParcela.plantasQueTiene().size()) * 100
+}
+
 
 
 

@@ -4,7 +4,7 @@ const planta1 = new Menta(añoDeObtencion = 2013, altura= 1)
 const planta2 = new Menta(añoDeObtencion = 2009, altura= 2)
 const planta3 = new Soja(añoDeObtencion = 2015, altura= 3)
 
-const parcela1 = new Parcela(ancho= 20, largo= 10, horasDeSolQueRecibePorDia= 5, palntasQueTiene= [planta1, planta2, planta3])
+const parcela1 = new ParcelaEcologica(ancho= 20, largo= 10, horasDeSolQueRecibePorDia= 5, plantasQueTiene= [planta1, planta2, planta3])
 
 test "Probar cantidadMaximaDePlantasQueTolera()" {
     assert.equals(40, parcela1.cantidadMaximaDePlantasQueTolera())
@@ -41,7 +41,7 @@ describe "Quinoa" {
 
 describe "Parcelas"{
     test "Una parcela de 20 metros de ancho por 1 metro de largo que recibe 8 horas de sol por día, tiene una superficie de 20 metros cuadrados y la cantidad máxima de plantas que tolera es 4."{
-        const parcela1= new Parcela(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8)
+        const parcela1= new ParcelaEcologica(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8)
         assert.equals(20, parcela1.superficieDeParcela())
         assert.equals(4, parcela1.cantidadMaximaDePlantasQueTolera())   
     }   
@@ -51,15 +51,15 @@ describe "Parcelas"{
         const soja2 = new Soja(altura= 3, añoDeObtencion =2020)
         const soja3 = new Soja(altura= 4, añoDeObtencion =2023)
         const soja4 = new Soja(altura= 2, añoDeObtencion =2025)
+        const soja5 = new Soja(altura= 3, añoDeObtencion =2025)
 
-        const parcela2= new Parcela(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8, plantasQueTiene=[soja1, soja2, soja3, soja4])
-    /*
-        parcela2.plantarPlanta(soja1)
-        parcela2.plantarPlanta(soja2)
-        parcela2.plantarPlanta(soja3)
-        parcela2.plantarPlanta(soja4)
-
-    */
+        const parcela2= new ParcelaEcologica(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8, plantasQueTiene = [soja1, soja2, soja3, soja4])
+    
+        //parcela2.plantarPlanta(soja5)
+      
         assert.equals(false, parcela2.tieneComplicaciones())
+        assert.throwsException({ parcela2.plantarPlanta(soja5) })
     }
+
+    
 }
