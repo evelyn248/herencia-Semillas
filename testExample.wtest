@@ -1,11 +1,65 @@
 import example.*
 
-const planta1 = new Planta(añoDeObtencion = 2013, altura= 1)
-const planta2 = new Planta(añoDeObtencion = 2009, altura= 2)
-const planta3 = new Planta(añoDeObtencion = 2015, altura= 3)
+const planta1 = new Menta(añoDeObtencion = 2013, altura= 1)
+const planta2 = new Menta(añoDeObtencion = 2009, altura= 2)
+const planta3 = new Soja(añoDeObtencion = 2015, altura= 3)
 
 const parcela1 = new Parcela(ancho= 20, largo= 10, horasDeSolQueRecibePorDia= 5, palntasQueTiene= [planta1, planta2, planta3])
 
 test "Probar cantidadMaximaDePlantasQueTolera()" {
     assert.equals(40, parcela1.cantidadMaximaDePlantasQueTolera())
+}
+
+describe "Menta" {
+  test "una menta de 1 metro, debería dar semillas y ocupar un espacio de 3 metros cuadrados." {
+    const menta1= new Menta(altura = 1, añoDeObtencion= 2024)    
+    assert.equals(true, menta1.daNuevasSemillas())
+    assert.equals(3, menta1.espacioQueOcupa())
+  }
+
+  test "una menta de solo 0.3 metros, no debería dar semillas y ocuparía 0.9 metros cuadrados de espacio."{
+
+    const menta2= new Menta(altura = 0.3, añoDeObtencion= 2024)
+    assert.equals(false, menta2.daNuevasSemillas())
+    assert.equals(0.9, menta2.espacioQueOcupa())
+    }
+}
+
+describe "Quinoa" {
+    test "si tenemos una quinoa que tolera 12 horas de sol y su semilla de origen es de 2010, se trata de una planta que da semillas."{
+    
+    const quinoa1 = new Quinoa(horasDeSol = 12, añoDeObtencion = 2010, altura = 1)
+    assert.equals(true, quinoa1.daNuevasSemillas())    
+    }
+
+    test "si tenemos una planta que tolere 9 horas de sol pero cuya semilla de origen es de 2001, también da semillas."{
+        
+        const quinoa2 = new Quinoa(horasDeSol = 9, añoDeObtencion = 2001, altura = 1)
+        assert.equals(true, quinoa2.daNuevasSemillas())    
+    }
+}
+
+describe "Parcelas"{
+    test "Una parcela de 20 metros de ancho por 1 metro de largo que recibe 8 horas de sol por día, tiene una superficie de 20 metros cuadrados y la cantidad máxima de plantas que tolera es 4."{
+        const parcela1= new Parcela(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8)
+        assert.equals(20, parcela1.superficieDeParcela())
+        assert.equals(4, parcela1.cantidadMaximaDePlantasQueTolera())   
+    }   
+
+    test "Si a esa parcela le plantamos 4 plantas de soja de más de 1 metro (que toleran 9 horas de sol), no tendría complicaciones. Si intentaramos agregar una quinta planta, se superaría la cantidad máxima y nos arrojaría un error."{
+        const soja1 = new Soja(altura= 2, añoDeObtencion =2024)
+        const soja2 = new Soja(altura= 3, añoDeObtencion =2020)
+        const soja3 = new Soja(altura= 4, añoDeObtencion =2023)
+        const soja4 = new Soja(altura= 2, añoDeObtencion =2025)
+
+        const parcela2= new Parcela(ancho=20, largo=1, horasDeSolQueRecibePorDia= 8, plantasQueTiene=[soja1, soja2, soja3, soja4])
+    /*
+        parcela2.plantarPlanta(soja1)
+        parcela2.plantarPlanta(soja2)
+        parcela2.plantarPlanta(soja3)
+        parcela2.plantarPlanta(soja4)
+
+    */
+        assert.equals(false, parcela2.tieneComplicaciones())
+    }
 }
